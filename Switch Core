@@ -1,0 +1,46 @@
+enable
+configure terminal
+hostname SW-CORE
+banner motd "ACESSO AUTORIZADO APENAS PARA O DEPARTAMENTO DE TI!"
+enable secret SenhaEnable
+ip domain-name peachanddaisy.local
+crypto key generate rsa general-keys modulus 1024
+username relampago privilege 15 secret marquinhos
+username Thiago000 privilege 15 secret thiagosilva
+username Rakel1711 privilege 15 secret 17117504
+username Picolo666 privilege 15 secret goku1234
+username Fabio privilege 15 secret penelopy 
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+transport input ssh
+exec-timeout 10
+login local
+exit
+interface GigabitEthernet 0/1
+switchport mode trunk 
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,100,99
+no shutdown
+exit
+interface GigabitEthernet 0/2
+switchport mode trunk 
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,100,99
+no shutdown
+exit
+interface FastEthernet 0/1
+switchport mode access 
+switchport access vlan 100
+no shutdown
+exit
+interface vlan 100
+ip address 172.16.20.38 255.255.255.240
+description REDE 100
+exit
+ip default-gateway 172.16.7.254
+do wr
